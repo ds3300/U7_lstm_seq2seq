@@ -98,13 +98,16 @@ def prepare_data(RAW_DATA_DIR, CLEAN_DATA_DIR, store_id_subset = None, date_rang
 
     full_endog = pd.DataFrame()
     full_ids = pd.Series()
+    print('constructing grouped time series')
     for agg_level in agg_levels:
+        print(f'  {agg_level[0]} {agg_level[1]}')
         agg_endog, agg_ids = construct_grouped_ts(sales_train, endog, agg_1=agg_level[0], agg_2=agg_level[1], drop_inactive=True, return_ids=True)
         full_endog = pd.concat([full_endog, agg_endog], axis=1)
         full_ids = pd.concat([full_ids, agg_ids])
     full_endog.columns = np.arange(full_endog.shape[1])
     full_ids.index = np.arange(full_ids.shape[0])
-
+    
+    print('saving data to CLEAN_DATA_DIR')
     #Save processed_data------------------------------------------------
     endog.to_pickle(CLEAN_DATA_DIR + 'endog.pkl')
     with open(CLEAN_DATA_DIR + 'st_list.pkl', 'wb') as f:
