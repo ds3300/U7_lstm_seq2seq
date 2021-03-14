@@ -1,11 +1,9 @@
 """
 Data preparation for M5 Competition
-
 Data for store_item level:
 endog: each col represents a ts of item_store pair, must be ordered as the same way as in sales_train (by col). The beginning zeros of endog are replaced by np.NaN
 st_list: the first non-zero index of each ts. Ordered in the same way as endog
 prices_df: the price of each item_store pair. Indexed in the same way as endog
-
 Data for all agg_levels: (12 agg_levels as required)
 S: Structural matrix which can convert data from item_store level to all agg_levels
 full_endog: each col represents a ts of all time-series (i.e. including all agg_levels), with beginning zeros replaced by np.NaN
@@ -18,15 +16,13 @@ import pickle as pkl
 from sklearn.preprocessing import OneHotEncoder
 from helper import construct_grouped_ts, compute_individual_ts
 
-RAW_DATA_DIR = 'C:/Users/ds3300/m5-forecasting-accuracy/'
-CLEAN_DATA_DIR = 'C:/Users/ds3300/m5-forecasting-accuracy/processed_data/'
+RAW_DATA_DIR = './raw_data/'
+CLEAN_DATA_DIR = './processed_data/'
 
 #Load raw data
 calendar = pd.read_csv(RAW_DATA_DIR + 'calendar.csv')
 sales_train = pd.read_csv(RAW_DATA_DIR + 'sales_train_evaluation.csv')
 sell_prices = pd.read_csv(RAW_DATA_DIR + 'sell_prices.csv')
-
-sales_train = sales_train.loc[sales_train.store_id == 'CA_1']
 
 #Create endog: An alternative data representation of time series data
 ts_cols = ['d_{}'.format(i) for i in range(1, 1942)]
@@ -95,7 +91,6 @@ agg_levels = [
 full_endog = pd.DataFrame()
 full_ids = pd.Series()
 for agg_level in agg_levels:
-    print(agg_level)
     agg_endog, agg_ids = construct_grouped_ts(sales_train, endog, agg_1=agg_level[0], agg_2=agg_level[1], drop_inactive=True, return_ids=True)
     full_endog = pd.concat([full_endog, agg_endog], axis=1)
     full_ids = pd.concat([full_ids, agg_ids])
