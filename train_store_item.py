@@ -23,10 +23,12 @@ MODEL_CHECKPOINT_DIR = './model/'
 LOGS_DIR = './logs/'
 """
 
-def load_data(RAW_DATA_DIR, CLEAN_DATA_DIR):
+def load_data(RAW_DATA_DIR, CLEAN_DATA_DIR, store_id_subset = None):
     #Load data------------------------------------------------------------------------------------
     calendar = pd.read_csv(RAW_DATA_DIR + 'calendar.csv')
     sales_train = pd.read_csv(RAW_DATA_DIR + 'sales_train_evaluation.csv')
+    if sales_train_subset is not None:
+        sales_train = sales_train.loc[sales_train.store_id.isin(store_id_subset)]
     with open(CLEAN_DATA_DIR + 'st_list.pkl', 'rb') as f:
         st_list = pkl.load(f)
     with open(CLEAN_DATA_DIR + 'prices_df.pkl', 'rb') as f:
