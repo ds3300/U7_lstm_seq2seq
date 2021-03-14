@@ -78,7 +78,7 @@ def train_model():
             model.save_weights(MODEL_CHECKPOINT_DIR + 'store_item_model_weights_{}.h5'.format(i))
 
     #Save the model design
-    print("saving the model design"
+    print("saving the model design")
     json_string = model.to_json()
     with open(MODEL_CHECKPOINT_DIR + 'store_item_model_design.pkl', 'wb') as f:
         pkl.dump(json_string, f)
