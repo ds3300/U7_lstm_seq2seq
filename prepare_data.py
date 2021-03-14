@@ -20,8 +20,12 @@ from helper import construct_grouped_ts, compute_individual_ts
 def prepare_data(RAW_DATA_DIR, CLEAN_DATA_DIR, store_id_subset = None, date_range_subset = None):
 
     #Load raw data
+    print('reading in raw CSVs:')
+    print('  calendar.csv')
     calendar = pd.read_csv(RAW_DATA_DIR + 'calendar.csv')
+    print('  sales_train_evaluation.csv')
     sales_train = pd.read_csv(RAW_DATA_DIR + 'sales_train_evaluation.csv')
+    print('  sell_prices.csv')
     sell_prices = pd.read_csv(RAW_DATA_DIR + 'sell_prices.csv')
     
     if store_id_subset is not None:
